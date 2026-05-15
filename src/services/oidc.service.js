@@ -118,7 +118,10 @@ export const googleCallbackService = async (req) => {
                     codeVerifier,
 
                 expectedState:
-                    state
+                    state,
+
+                redirect_uri:
+                    process.env.GOOGLE_CALLBACK_URL
             }
         )
 
