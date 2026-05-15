@@ -133,7 +133,7 @@ export const googleCallbackService = async (req) => {
     const userInfo =
         await client.fetchUserInfo(
             oidcClient,
-            tokens,
+            tokens.access_token,
             tokens.claims().sub
         )
 
