@@ -165,39 +165,34 @@ export const googleCallbackService = async (req) => {
         existingUser.rows.length > 0
     ) {
 
-        user =
-            existingUser.rows[0]
+        user = existingUser.rows[0]
 
     } else {
 
         const createdUser =
             await pool.query(
                 `
-                INSERT INTO users
-                (
-                    username,
-                    email,
-                )
+        INSERT INTO users
+        (
+            username,
+            email
+        )
 
-                VALUES
-                (
-                    $1,
-                    $2,
-                    $3,
-                    $4,
-                    $5
-                )
+        VALUES
+        (
+            $1,
+            $2
+        )
 
-                RETURNING *
-                `,
+        RETURNING *
+        `,
                 [
                     username,
-                    email,
+                    email
                 ]
             )
 
-        user =
-            createdUser.rows[0]
+        user =  createdUser.rows[0]
     }
 
     return user
