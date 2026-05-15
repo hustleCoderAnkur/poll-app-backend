@@ -141,7 +141,6 @@ export const googleCallbackService = async (req) => {
         sub,
         email,
         name,
-        picture
     } = userInfo
 
     const username =
@@ -178,7 +177,6 @@ export const googleCallbackService = async (req) => {
                 (
                     username,
                     email,
-                    avatar,
                     oidc_provider,
                     oidc_sub
                 )
@@ -197,7 +195,6 @@ export const googleCallbackService = async (req) => {
                 [
                     username,
                     email,
-                    picture,
                     "google",
                     sub
                 ]
