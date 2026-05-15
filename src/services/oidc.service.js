@@ -177,8 +177,6 @@ export const googleCallbackService = async (req) => {
                 (
                     username,
                     email,
-                    oidc_provider,
-                    oidc_sub
                 )
 
                 VALUES
@@ -195,8 +193,6 @@ export const googleCallbackService = async (req) => {
                 [
                     username,
                     email,
-                    "google",
-                    sub
                 ]
             )
 
