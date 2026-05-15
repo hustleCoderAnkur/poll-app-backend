@@ -32,7 +32,7 @@ export const googleCallback = async (req, res) => {
 
         const accessToken = jwt.sign(
             {
-                id: user._id,
+                id: user.id,
                 email: user.email
             },
 
@@ -46,7 +46,7 @@ export const googleCallback = async (req, res) => {
 
         const refreshToken = jwt.sign(
             {
-                id: user._id
+                id: user.id
             },
 
             process.env.REFRESH_TOKEN_SECRET,
@@ -63,7 +63,7 @@ export const googleCallback = async (req, res) => {
             {
                 httpOnly: true,
                 secure: false,
-                sameSite: "lax"
+                sameSite: "none"
             }
         )
 
@@ -73,7 +73,7 @@ export const googleCallback = async (req, res) => {
             {
                 httpOnly: true,
                 secure: false,
-                sameSite: "lax"
+                sameSite: "none"
             }
         )
 
