@@ -107,11 +107,17 @@ export const googleCallbackService = async (req) => {
 
     oidcStates.delete(state)
 
+    const currentUrl =
+        new URL(
+            req.originalUrl,
+            APP_BASE_URL
+        );
+
     const tokens =
         await client.authorizationCodeGrant(
             oidcClient,
 
-            new URL(req.url, APP_BASE_URL),
+            currentUrl,
 
             {
                 pkceCodeVerifier:
