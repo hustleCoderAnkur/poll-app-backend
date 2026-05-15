@@ -6,7 +6,7 @@ export const initSocket = (server) => {
 
     io = new Server(server, {
         cors: {
-            origin: "*",
+            origin: "https://poll-app-frontend-chi.vercel.app",
             methods: ["GET", "POST"],
         },
     })

@@ -1,8 +1,7 @@
 import * as client from "openid-client"
 import { pool } from "../config/db/db.js"
 
-const APP_BASE_URL =
-    process.env.APP_BASE_URL || "http://localhost:3000"
+const APP_BASE_URL = process.env.APP_BASE_URL 
 
 let oidcClient = null
 

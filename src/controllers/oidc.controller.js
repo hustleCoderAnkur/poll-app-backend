@@ -78,7 +78,7 @@ export const googleCallback = async (req, res) => {
         )
 
         return res.redirect(
-            "http://localhost:5173"
+            "https://poll-app-frontend-chi.vercel.app"
         )
 
     } catch (error) {
