@@ -130,11 +130,11 @@ export const googleCallbackService = async (req) => {
                     process.env.GOOGLE_CALLBACK_URL
             }
         )
-
     const userInfo =
         await client.fetchUserInfo(
             oidcClient,
-            tokens.access_token
+            tokens,
+            tokens.claims().sub
         )
 
     const {
