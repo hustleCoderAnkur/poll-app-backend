@@ -55,6 +55,12 @@ export const loginUserService = async ({email,password}) => {
         throw new Error("User not found")
     }
 
+    if (!user[0].password) {
+        throw new Error(
+            "Please login with Google"
+        );
+    }
+
     const isPasswordMatched = await bcrypt.compare(password,user[0].password)
 
     if (!isPasswordMatched) {

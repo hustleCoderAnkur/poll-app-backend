@@ -15,6 +15,13 @@
       "when": 1778733066268,
       "tag": "0001_grey_silver_samurai",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778893515331,
+      "tag": "0002_breezy_professor_monster",
+      "breakpoints": true
     }
   ]
 }
