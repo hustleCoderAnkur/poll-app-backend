@@ -1,7 +1,7 @@
 import * as client from "openid-client"
 import { pool } from "../config/db/db.js"
 
-const APP_BASE_URL = process.env.APP_BASE_URL 
+const APP_BASE_URL = process.env.APP_BASE_URL
 
 let oidcClient = null
 
@@ -111,7 +111,7 @@ export const googleCallbackService = async (req) => {
         new URL(
             req.originalUrl,
             APP_BASE_URL
-        );
+        )
 
     const tokens =
         await client.authorizationCodeGrant(
@@ -130,6 +130,7 @@ export const googleCallbackService = async (req) => {
                     process.env.GOOGLE_CALLBACK_URL
             }
         )
+
     const userInfo =
         await client.fetchUserInfo(
             oidcClient,
@@ -143,12 +144,6 @@ export const googleCallbackService = async (req) => {
         name,
     } = userInfo
 
-    const username =
-        name
-            ?.replace(/\s+/g, "_")
-            .toLowerCase()
-            .slice(0, 50)
-
     const existingUser =
         await pool.query(
             `
@@ -161,38 +156,59 @@ export const googleCallbackService = async (req) => {
 
     let user
 
-    if (
-        existingUser.rows.length > 0
-    ) {
+    if (existingUser.rows.length > 0) {
 
         user = existingUser.rows[0]
 
     } else {
 
+        const baseUsername =
+            name
+                ?.replace(/\s+/g, "_")
+                .toLowerCase()
+                .slice(0, 45) || "user"
+
+        const usernameCheck =
+            await pool.query(
+                `
+                SELECT username
+                FROM users
+                WHERE username LIKE $1
+                `,
+                [`${baseUsername}%`]
+            )
+
+        // Agar collision hai toh suffix add karo
+        const username =
+            usernameCheck.rows.length > 0
+                ? `${baseUsername}_${Math.random().toString(36).slice(2, 6)}`
+                : baseUsername
+
         const createdUser =
             await pool.query(
                 `
-        INSERT INTO users
-        (
-            username,
-            email
-        )
-
-        VALUES
-        (
-            $1,
-            $2
-        )
-
-        RETURNING *
-        `,
+                INSERT INTO users
+                (
+                    username,
+                    email,
+                    is_verified
+                )
+                VALUES
+                (
+                    $1,
+                    $2,
+                    $3
+                )
+                RETURNING *
+                `,
                 [
                     username,
-                    email
+                    email,
+                    true        
                 ]
             )
 
-        user =  createdUser.rows[0]
+        user = createdUser.rows[0]
     }
 
     return user
